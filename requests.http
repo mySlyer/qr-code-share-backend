@@ -1,0 +1,9 @@
+### 查询全部
+Get http://localhost:3000/qr-code-share
+
+
+
+### 查询单个
+Get http://localhost:3000/qr-code-share?id=12
+
+### 创建
