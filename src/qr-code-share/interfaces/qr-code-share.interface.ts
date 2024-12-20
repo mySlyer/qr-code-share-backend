@@ -1,6 +1,6 @@
 export interface qrCode {
-    name: string;
-    desc: string;
-    imgUrl: string;
-    qrCodeId: number;
-  }
+  content: string;
+  id: number;
+  name: string;
+  desc?: string;
+}

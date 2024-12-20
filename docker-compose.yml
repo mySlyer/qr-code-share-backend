@@ -1,0 +1,18 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: wwm-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword # Root 用户的密码
+      MYSQL_DATABASE: wwmDB # 初始化数据库名称
+      MYSQL_USER: wwm # 数据库用户
+      MYSQL_PASSWORD: wwm123 # 用户的密码
+    ports:
+      - '3306:3306' # 映射 MySQL 的端口
+    volumes:
+      - mysql_data:/var/lib/mysql # 数据持久化
+
+volumes:
+  mysql_data:

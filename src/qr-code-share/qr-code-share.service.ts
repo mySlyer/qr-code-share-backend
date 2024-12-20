@@ -1,43 +1,48 @@
-import { Injectable } from "@nestjs/common";
-import { qrCode } from "./interfaces/qr-code-share.interface";
-// import 
-// import { DemoDB } from "~/lib/db";    
+import { Injectable } from '@nestjs/common';
+import { qrCode } from './interfaces/qr-code-share.interface';
+import { QrCodeDB } from 'src/lib/db/qr-code';
+// import
+// import { DemoDB } from "~/lib/db";
 @Injectable()
 export class QrCodesService {
-  private readonly qrCodes: qrCode[] = [
-    {
-      name: "mani",
-      desc: '12',
-      imgUrl: "big",
-      qrCodeId:12
-    },
-    {
-      name: "mani",
-      desc: '13',
-      imgUrl: "big",
-      qrCodeId:13
-    },
-  ];
-
   create(qrCode: qrCode) {
-    this.qrCodes.push(qrCode);
+    // this.qrCodes.push(qrCode);
     return qrCode;
   }
 
-  findAll(): qrCode[] {
-    return this.qrCodes;
+  async findAll() {
+    const res = await QrCodeDB.findMany();
+    return res;
   }
-  findOne(id:number): qrCode {
-    return this.qrCodes.find(item => item.qrCodeId === id);
+  async findOne(id: number) {
+    const qrcode = await QrCodeDB.findUnique({ where: { id } });
+    console.log('qrcode', qrcode);
+    return qrcode;
   }
-//   async testDb() {
-//     console.log('testDb');  
-//     return await DemoDB.findMany(
-//     //   {
-//     //   where: {
-//     //     id: 1,
-//     //   },
-//     // }
-//   );
-//   }
+
+  async createQrCode(qrCode: { content: string; name: string; desc?: string }) {
+    console.log('qrCode service', qrCode);
+    const res = await QrCodeDB.create({
+      data: {
+        ...qrCode,
+      },
+    });
+    return res;
+  }
+
+  async updateQrCode(id: number, qrCodeData: qrCode) {
+    const res = await QrCodeDB.update({
+      where: { id },
+      data: qrCodeData,
+    });
+    console.log('res', res);
+    return res;
+  }
+
+  async deleteQrCode(id: number): Promise<qrCode> {
+    const res = QrCodeDB.delete({
+      where: { id },
+    });
+    return res;
+  }
 }
