@@ -15,9 +15,12 @@ export class QrCodesService {
     return res;
   }
   async findOne(id: number) {
+    console.log('id', typeof id, id);
     const qrcode = await QrCodeDB.findUnique({ where: { id } });
     console.log('qrcode', qrcode);
-    return qrcode;
+    return {
+      data: qrcode,
+    };
   }
 
   async createQrCode(qrCode: { content: string; name: string; desc?: string }) {
@@ -27,7 +30,9 @@ export class QrCodesService {
         ...qrCode,
       },
     });
-    return res;
+    return {
+      data: res,
+    };
   }
 
   async updateQrCode(id: number, qrCodeData: qrCode) {
